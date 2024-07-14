@@ -14,10 +14,8 @@ function Login() {
             password: Yup.string().required('Required!').min(6)
         }),
         onSubmit: async (values, { setSubmitting, setErrors }) => {
-            console.log(values, process.env.API_URL);
-
             try {
-                const response = await fetch(`http://localhost:4300/login`, {
+                const response = await fetch(`${process.env.API_URL}/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -25,11 +23,11 @@ function Login() {
                     body: JSON.stringify(values)
                 });
 
-                const data = await response.json();
+                const data = (await response.json()).data;
 
                 if (response.ok) {
                     // navigate to home page
-                    alert('data', data.token);
+                    console.log('data', data.token);
                 } else {
                     // show error
                     console.log('else error', data.error);
